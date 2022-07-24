@@ -42,3 +42,13 @@ The specifics and implementation of this code is completely up to you!
 Please include a readme with any additional information you would like to include, including instructions on how to test and execute your code.  You may wish to use it to explain any design decisions.
 
 Despite this being a small command line app, please approach this as you would a production problem using whatever approach to coding and testing you feel appropriate.
+
+# Arun Thomas
+# Pronto Woven coding challenge - play the game of Woven Monopoly.
+# Rent is assumed to be half of the property price
+# Coded in Ruby. To execute, go to the folder and type "ruby pronto_arun.rb" in the terminal and follow the prompts....
+# Various options are added to select from both JSON files and a random play mode.
+
+
+
+

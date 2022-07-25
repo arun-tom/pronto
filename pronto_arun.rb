@@ -8,7 +8,7 @@ require 'json'
 require './board.rb'
 require './player.rb'
 
-# Getting the JSON files and getting the data
+# Getting JSON files and data
 file = File.read('board.json')
 board_data = JSON.parse(file)
 file_1 = File.read('rolls_1.json')
@@ -17,14 +17,14 @@ file_2 = File.read('rolls_2.json')
 $rolls_2_data = JSON.parse(file_2)
 $dice_1_index = 0
 $dice_2_index = 0
-
 $winning_amount = 0
 
 puts "\n"
 puts "Hello, Pronto! Woven Monopoly coding challenge"
 puts "\n"
 
-pronto_board = Array.new(9) {Board.new} # Creating an array of nine Board elements.
+pronto_board = Array.new(9) {Board.new}
+# Creating an array of nine Board elements.
 
 index = 0
 while index < pronto_board.length
@@ -37,12 +37,13 @@ while index < pronto_board.length
     # if colour is not 'nil' then copy colour from board.json file
     pronto_board[index].type = board_data[index]["type"]
     pronto_board[index].rent = board_data[index]["price"] / 2.0 if board_data[index]["price"]
-    # if rent is not 'nil' then rent = rent/2
+    # if rent is not 'nil' then rent = price/2
     
     index += 1
 end
 
 players = [
+# Creating players
     Player.new("Peter", 0),
     Player.new("Billy", 1),
     Player.new("Charlotte", 2),
@@ -50,6 +51,7 @@ players = [
 ]
 
 def ownMultipleProperties(boards, colour, owner)
+# Checking if a player owns multiple properties of same colour. Returns boolean
     count = 0
     for board in boards do
         if ((board.colour != nil) && (board.colour == colour))
@@ -73,6 +75,7 @@ def rollDice
         rolled_sum = $rolls_1_data[$dice_1_index] + $rolls_2_data[$dice_2_index]
 
         puts "Dice rolled is #{rolled_sum}"
+
         $dice_1_index += 1
         $dice_2_index += 1
     
@@ -88,6 +91,7 @@ def rollDice
         rolled_sum = $rolls_1_data[$dice_1_index]
 
         puts "Dice rolled is #{rolled_sum}"
+
         $dice_1_index += 1
 
         if $dice_1_index >= $rolls_1_data.length
@@ -98,7 +102,9 @@ def rollDice
         rolled_sum = $rolls_2_data[$dice_2_index]
 
         puts "Dice rolled is #{rolled_sum}"
+
         $dice_2_index += 1
+
         if $dice_2_index >= $rolls_2_data.length
             $dice_2_index = 0
         end
@@ -107,7 +113,9 @@ def rollDice
         random = Random.new
         rolled_sum = random.rand(2..12)
         # Generating random number from 2 to 12 both inclusive
+
         puts "Dice rolled is #{rolled_sum}"
+
     end
     return rolled_sum
 end
@@ -128,6 +136,7 @@ while 1
     for player in players do
 
         puts "#{player.name} is playing now"
+
         current_location = player.location
         current_location += rollDice
         # rolling dice
@@ -145,13 +154,15 @@ while 1
         puts "Current location index is #{current_location}"
             
         if  !pronto_board[current_location].owner && (current_location != 0)
-            # if this board is not occupied and is not GO
+            # Buy this property if this is not occupied and is not GO
+
             pronto_board[current_location].owner = player.index
             player.money -= pronto_board[current_location].price
+
             puts "#{player.name} bought #{pronto_board[current_location].name} for $#{pronto_board[current_location].price}"
 
         elsif (current_location != 0) && (player.name != players[pronto_board[current_location].owner].name)
-            # pay rent if this board is not owned by this player and is not GO
+            # Pay rent if this board is not owned by this player and is not GO
                 
             rent = pronto_board[current_location].rent
 
@@ -162,6 +173,7 @@ while 1
                 
             players[pronto_board[current_location].owner].money += rent
             player.money -= rent
+
             puts "#{player.name} paid $#{rent} to #{players[pronto_board[current_location].owner].name} as rent"
         end
 
@@ -175,7 +187,7 @@ while 1
             winner = player.name
         end
 
-        if player.money <= 0
+        if player.money < 0
             puts "#{player.name} is bankrupt"
             puts "#{winner} is the winner with $#{$winning_amount} in hand"
             $winning_amount = 0

@@ -1,5 +1,5 @@
 class Player
-    attr_accessor :name, :money, :index, :location, :health, :isCurrent_player
+    attr_accessor :name, :money, :index, :location, :health, :is_current_player
 
     def initialize(name, play_order)
         @name = name
@@ -7,6 +7,6 @@ class Player
         @index = play_order
         @health = 100
         @location = 0
-        @isCurrent_player = false
+        @is_current_player = false
     end
 end

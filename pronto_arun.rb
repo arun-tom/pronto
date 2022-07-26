@@ -151,7 +151,6 @@ while 1
         end
 
         player.location = current_location
-        puts "Current location index is #{current_location}"
             
         if  !pronto_board[current_location].owner && (current_location != 0)
             # Buy this property if this is not occupied and is not GO
